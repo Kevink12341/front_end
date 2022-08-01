@@ -1,11 +1,11 @@
 
 {
     "compilerOptions": {
-      "module": "es2020",
+      "module": "esnext",
       "resolveJsonModule": true,
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
-      "target": "es6",
+      "target": "esnext",
       "noImplicitAny": true,
       "moduleResolution": "node",
       "sourceMap": true,

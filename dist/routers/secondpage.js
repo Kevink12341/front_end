@@ -15,20 +15,25 @@ connection.connect(function (err) {
     console.log("Connected to DB");
 });
 let sqlStr = `SELECT tableName FROM cbs_tables`;
-connection.query(sqlStr, function (err, res, fields) {
-    if (err)
-        console.error(err);
-    let resultArr = [];
-    for (let i = 0; i < res.length; i++) {
-        resultArr.push(res[i].tableName);
-    }
-    console.log(resultArr);
+let cbs_tables_promise = new Promise((resolve, reject) => {
+    connection.query(sqlStr, function (err, res, fields) {
+        if (err)
+            console.error(err);
+        let resultArr = [];
+        for (let i = 0; i < res.length; i++) {
+            resultArr.push(res[i].tableName);
+        }
+        resolve(resultArr);
+    });
 });
-let testvar = " abcd";
+let testvar = () => {
+    console.log("testing whether this works");
+};
+let provide_values = await cbs_tables_promise;
 router2.get('/', (req, res) => {
     console.log("ok for now");
     let list_options = " abcd";
-    res.render('../views/dropdown.ejs', { list_options: testvar });
+    res.render('../views/dropdown.ejs', { list_options: testvar, existing_tables: provide_values });
 });
 export { router2 };
 //# sourceMappingURL=secondpage.js.map
