@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<script src="../scripts/secondpagescript.js"></script>
+
 <body>
 
 <h1>The select element</h1>
 
-<form action="comes later">
+<form>
   <label for="cbs_existing_tables">Choose a table:</label>
-  <select name="cbs_existing_tables" id="cbs_existing_tables">
+  <select name="cbs_existing_tables" id="cbs_existing_tables"  onchange="handleTableSelect()">
 
     <% if (existing_tables.length == 0){%>
       
@@ -23,15 +23,18 @@
 
   </select>
   <br><br>
-  <input type="submit" value="Fetch Data">
+  <input type="submit" value="Fetch Data"  >
 </form>
 
 <p>Click the "Submit" button and the form-data will be sent to a page on the 
 server called "action_page.php".</p>
-
-<div id="cbs_selected_table">
+<p id="tryme"></p>
+<%- include('Tables/table') -%>
   
 </div>
-
+<script src="../script.js" type="text/javascript">
+let loader = "<%=getID%>"
+console.log(loader)
+</script>
 </body>
 </html>

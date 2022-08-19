@@ -1,6 +1,7 @@
 import express from "express";
 import mysql from "mysql";
 const router2 = express.Router();
+const tablerouter2 = express.Router();
 const dbinfo = {
     host: 'localhost',
     user: 'root',
@@ -26,14 +27,47 @@ let cbs_tables_promise = new Promise((resolve, reject) => {
         resolve(resultArr);
     });
 });
-let testvar = () => {
-    console.log("testing whether this works");
+let mysqlCredentials = {
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "cbsdata",
+    port: 3306,
 };
-let provide_values = await cbs_tables_promise;
-router2.get('/', (req, res) => {
+let myconnection = mysql.createConnection(mysqlCredentials);
+let tablename = 'O83878NED';
+let limit_sql = 50;
+let sqlstr = `Select * from ${tablename} limit ${limit_sql}`;
+let data = new Promise((resolve, reject) => {
+    myconnection.query(sqlstr, (err, res) => {
+        if (err)
+            console.error(err);
+        resolve(res);
+    });
+});
+function fetchData(query) {
+    return new Promise((resolve, reject) => {
+        myconnection.query(sqlstr, (err, res) => {
+            if (err)
+                console.error(err);
+            resolve(res);
+        });
+    });
+}
+router2.get('/', async (req, res) => {
+    let all_data = await fetchData(sqlstr);
+    let tableData = await fetchData(sqlstr);
+    let mySQLTableName = 'O83878NED';
+    let provide_values = await cbs_tables_promise;
     console.log("ok for now");
-    let list_options = " abcd";
-    res.render('../views/dropdown.ejs', { list_options: testvar, existing_tables: provide_values });
+    res.render('../views/dropdown.ejs', { existing_tables: provide_values, getID: all_data, tablename: mySQLTableName, tabledata: tableData });
+});
+router2.get('/:headername', async (req, res) => {
+    let tableData = await fetchData(sqlstr);
+    let all_data = await fetchData(sqlstr);
+    let mySQLTableName = 'O83878NED';
+    let provide_values = await cbs_tables_promise;
+    res.render('../views/dropdown.ejs', { headername: mySQLTableName, getID: all_data, existing_tables: provide_values, tabledata: tableData, tablename: mySQLTableName });
 });
 export { router2 };
 //# sourceMappingURL=secondpage.js.map

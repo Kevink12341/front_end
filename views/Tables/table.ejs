@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+        <% tabledata %>
+<style>
+    table, tbody, tr, td {
+        border: 1px solid black ;
+    }
+</style>
+<body>
+
+<div class="cbsTable">
+    <table > 
+    <% let headerkeys = Object.keys(tabledata[0]) %>
+    <%  for (var i = 0; i< tabledata.length; i++){ %>
+        <% let keys = Object.keys(tabledata[0]) %>
+        <tr> 
+            <% for (var j = 0; j < keys.length; j++){ %>
+                <td>
+                    <%= tabledata[i][keys[j]] %>
+                </td>
+            <% } %>
+        </tr>
+
+    <% } %>
+    </table>
+</div>
+</body>
+</html>
